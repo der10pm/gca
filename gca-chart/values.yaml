@@ -1,3 +1,44 @@
-favorite:
-  drink: coffee
-  food: pizza
+deployments: 
+  catalog:
+    replicaCount: 1
+    name: catalog
+    image: "cszab/gca-catalog:0.0.4"
+    livenessUrl: "api/catalog/health"
+    env:
+    - name: DOCKER_USER
+      valueFrom:
+        secretKeyRef:
+          name: gca-secrets
+          key: catalog_user
+    - name: DOCKER_PW
+      valueFrom:
+        secretKeyRef:
+          name: gca-secrets
+          key: catalog_pw
+
+services: 
+  catalog: 
+    type: ClusterIP
+    port: 8080
+    targetPort: 8080
+
+ingress: 
+  enabled: true
+  annotations: 
+    nginx.ingress.kubernetes.io/ssl-redirect: \"false\"
+  services:
+    catalog:
+      servicePort: catalog-http
+      path: "/api/catalog"
+
+autoscaling:
+  enabled: false
+  minReplicas: 1
+  maxReplicas: 5
+  targetCPUUtilizationPercentage: 20
+
+global:
+  postgresql:
+    postgresqlDatabase: "gca"
+    postgresqlUsername: "psql"
+    postgresqlPassword: "psql_pw"

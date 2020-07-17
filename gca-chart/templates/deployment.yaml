@@ -1,0 +1,42 @@
+{{- range $key, $val := .Values.deployments}}
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ print $.Release.Name "-" $key }}
+  labels:
+    app: {{ $key }}
+spec:
+{{- if not $.Values.autoscaling.enabled }}
+  replicas: {{ $val.replicaCount }}
+{{- end }}
+  selector:
+    matchLabels:
+      app: {{ $key }}
+  template:
+    metadata:
+      labels:
+        app: {{ $key }}
+    spec:
+      containers:
+        - name: {{ $val.name }}
+          image: {{ $val.image }}
+          ports:
+            - name: {{ print $key "-http" }}
+              containerPort: 8080
+              hostPort: 8080
+          livenessProbe:
+            httpGet:
+              path: {{ $val.livenessUrl }}
+              port: {{ print $key "-http" }}
+            initialDelaySeconds: 10
+            periodSeconds: 10
+          env: 
+          {{- range $val.env }}
+          - name: {{ .name }}
+            valueFrom: 
+              secretKeyRef:
+                name: {{ .valueFrom.secretKeyRef.name }}
+                key: {{ .valueFrom.secretKeyRef.key }}
+          {{- end}}
+---
+{{- end}}
