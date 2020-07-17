@@ -1,4 +1,4 @@
-{{- range $key, $val := .Values.services}}
+{{- range $key, $val := .Values.deployments}}
 apiVersion: v1
 kind: Service
 metadata:
@@ -6,12 +6,11 @@ metadata:
   labels:
     app: {{ $key }}
 spec:
-  type: {{ $val.type }}
   ports:
     - port: {{ $val.port }}
       targetPort: {{ $val.targetPort }}
       protocol: TCP
-      name: {{ print $key "-http" }}
+      name: {{ $val.portName }}
   selector:
     app: {{ $key }}
 ---

@@ -15,11 +15,11 @@ spec:
   rules:
   - http:
       paths:
-      {{- range $key, $val := .Values.ingress.services }}
+      {{- range $key, $val := .Values.deployments }}
       - path: {{ $val.path }}
         pathType: Prefix
         backend:
           serviceName: {{ print $.Release.Name "-" $key }}
-          servicePort: {{ $val.servicePort }}
+          servicePort: {{ $val.portName }}
       {{- end }}
 {{- end }}

@@ -1,5 +1,9 @@
 deployments: 
   catalog:
+    port: 8080
+    targetPort: 8080
+    portName: catalog-http
+    path: "/api/catalog"
     replicaCount: 1
     name: catalog
     image: "cszab/gca-catalog:0.0.4"
@@ -16,20 +20,10 @@ deployments:
           name: gca-secrets
           key: catalog_pw
 
-services: 
-  catalog: 
-    type: ClusterIP
-    port: 8080
-    targetPort: 8080
-
 ingress: 
   enabled: true
   annotations: 
     nginx.ingress.kubernetes.io/ssl-redirect: \"false\"
-  services:
-    catalog:
-      servicePort: catalog-http
-      path: "/api/catalog"
 
 autoscaling:
   enabled: false

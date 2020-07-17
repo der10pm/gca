@@ -22,12 +22,12 @@ spec:
           image: {{ $val.image }}
           ports:
             - name: {{ print $key "-http" }}
-              containerPort: 8080
-              hostPort: 8080
+              containerPort: {{ $val.port }}
+              hostPort: {{ $val.targetPort }}
           livenessProbe:
             httpGet:
               path: {{ $val.livenessUrl }}
-              port: {{ print $key "-http" }}
+              port: {{ $val.portName }}
             initialDelaySeconds: 10
             periodSeconds: 10
           env: 
