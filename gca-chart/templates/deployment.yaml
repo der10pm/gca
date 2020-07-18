@@ -23,7 +23,7 @@ spec:
           ports:
             - name: {{ print $key "-http" }}
               containerPort: {{ $val.port }}
-              hostPort: {{ $val.targetPort }}
+              # hostPort: {{ $val.targetPort }}
           livenessProbe:
             httpGet:
               path: {{ $val.livenessUrl }}
@@ -33,10 +33,14 @@ spec:
           env: 
           {{- range $val.env }}
           - name: {{ .name }}
+            {{- if .valueFrom }}
             valueFrom: 
               secretKeyRef:
                 name: {{ .valueFrom.secretKeyRef.name }}
                 key: {{ .valueFrom.secretKeyRef.key }}
+            {{- else }}
+            value: {{ print $.Release.Name "-" .value }}
+            {{- end }}
           {{- end}}
 ---
 {{- end}}

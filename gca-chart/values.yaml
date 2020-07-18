@@ -6,7 +6,7 @@ deployments:
     path: "/api/catalog"
     replicaCount: 1
     name: catalog
-    image: "cszab/gca-catalog:0.0.4"
+    image: "cszab/gca-catalog:0.0.5"
     livenessUrl: "api/catalog/health"
     env:
     - name: DOCKER_USER
@@ -19,6 +19,38 @@ deployments:
         secretKeyRef:
           name: gca-secrets
           key: catalog_pw
+  cart:
+    port: 8081
+    targetPort: 8080
+    portName: cart-http
+    path: "/api/cart"
+    replicaCount: 1
+    name: cart
+    image: "cszab/gca-cart:0.0.1"
+    livenessUrl: "api/cart/health"
+    env:
+    - name: DOCKER_USER
+      valueFrom:
+        secretKeyRef:
+          name: gca-secrets
+          key: cart_user
+    - name: DOCKER_PW
+      valueFrom:
+        secretKeyRef:
+          name: gca-secrets
+          key: cart_pw
+    - name: POSTGRES_USER
+      valueFrom:
+        secretKeyRef:
+          name: gca-secrets
+          key: postgres_user
+    - name: POSTGRES_PW
+      valueFrom:
+        secretKeyRef:
+          name: gca-secrets
+          key: postgres_pw
+    - name: POSTGRES_URL
+      value: postgresql
 
 ingress: 
   enabled: true
