@@ -51,6 +51,38 @@ deployments:
           key: postgres_pw
     - name: POSTGRES_URL
       value: postgresql
+  shipping:
+    port: 8082
+    targetPort: 8082
+    portName: shipping-http
+    path: "/api/shipping"
+    replicaCount: 1
+    name: cart
+    image: "cszab/gca-shipping:0.0.1"
+    livenessUrl: "api/shipping/health"
+    env:
+    - name: DOCKER_USER
+      valueFrom:
+        secretKeyRef:
+          name: gca-secrets
+          key: shipping_user
+    - name: DOCKER_PW
+      valueFrom:
+        secretKeyRef:
+          name: gca-secrets
+          key: shipping_pw
+    - name: POSTGRES_USER
+      valueFrom:
+        secretKeyRef:
+          name: gca-secrets
+          key: postgres_user
+    - name: POSTGRES_PW
+      valueFrom:
+        secretKeyRef:
+          name: gca-secrets
+          key: postgres_pw
+    - name: POSTGRES_URL
+      value: postgresql
 
 ingress: 
   enabled: true

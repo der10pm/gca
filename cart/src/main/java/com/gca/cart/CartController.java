@@ -101,9 +101,8 @@ public class CartController {
     public ShopCart PutCart(@RequestParam("newItem") final Long newItem, @PathVariable final Long id) {
         final ShopCart temp = repository.findById(id).get();
         temp.getItems().add(newItem);
-        repository.save(temp);
-        return temp;
-        // @RequestBody String pBody
+        
+        return repository.save(temp);
     }
 
     @GetMapping("/health")
