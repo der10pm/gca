@@ -1,0 +1,66 @@
+{
+    "configurations": [
+        {
+            "type": "java",
+            "name": "Cart",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "console": "internalConsole",
+            "mainClass": "com.gca.cart.CartApplication",
+            "projectName": "cart",
+            "args": "",
+            "env": {
+                "POSTGRES_URL": "localhost:5432",
+                "POSTGRES_USER": "psql",
+                "POSTGRES_PW": "psql_pw",
+                "DOCKER_USER": "cart",
+                "DOCKER_PW": "cart_pw",
+            }
+        }, {
+            "type": "java",
+            "name": "Catalog",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "console": "internalConsole",
+            "mainClass": "com.gca.catalog.CatalogApplication",
+            "projectName": "catalog",
+            "args": "",
+            "env": {
+                "DOCKER_USER": "catalog",
+                "DOCKER_PW": "catalog_pw",
+            }
+        }, {
+            "type": "java",
+            "name": "Shipping",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "console": "internalConsole",
+            "mainClass": "com.gca.shipping.ShippingApplication",
+            "projectName": "shipping",
+            "args": "",
+            "env": {
+                "POSTGRES_URL": "localhost:5432",
+                "POSTGRES_USER": "psql",
+                "POSTGRES_PW": "psql_pw",
+                "DOCKER_USER": "shipping",
+                "DOCKER_PW": "shipping_pw",
+            }
+        }, {
+            "type": "java",
+            "name": "Checkout",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "console": "internalConsole",
+            "mainClass": "com.gca.checkout.CheckoutApplication",
+            "projectName": "checkout",
+            "args": "",
+            "env": {
+                "POSTGRES_URL": "localhost:5432",
+                "POSTGRES_USER": "psql",
+                "POSTGRES_PW": "psql_pw",
+                "DOCKER_USER": "checkout",
+                "DOCKER_PW": "checkout_pw",
+            }
+        }, 
+    ]
+}
