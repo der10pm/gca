@@ -1,0 +1,36 @@
+<div class="row p-0">
+  <div class="col-12 p-0 container portrait">
+
+  </div>
+</div>
+
+<div class="row">
+  <div class="d-none d-sm-block col-md-2"></div>
+  <div class="card col-12 col-md-8 p-0 mt-5">
+    <div class="card-header">Die Produkte: </div>
+    <div class="card-body">
+      <div class="row">
+        <ng-container **ngIf="catalog$ | async as catalog">
+          <div class="col-12 col-md-6 col-xl-4" (click)="addItemToCart(item)" **ngFor="let item of catalog">
+            <div class="row">
+              <div class="col-12 text-center">
+
+              </div>
+            </div>
+            <div class="row text-center">
+              <div class="col-12">
+                <strong class="text-center">{{item.name}}</strong>
+              </div>
+            </div>
+            <div class="row text-center">
+              <div class="col-12">
+                <small class="text-center">{{item.priceInCent /100| currency:'EUR' }} uvp.</small>
+              </div>
+            </div>
+          </div>
+        </ng-container>
+      </div>
+    </div>
+  </div>
+  <div class="d-none d-sm-block col-md-2"></div>
+</div>
