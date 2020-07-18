@@ -57,7 +57,7 @@ deployments:
     portName: shipping-http
     path: "/api/shipping"
     replicaCount: 1
-    name: cart
+    name: shipping
     image: "cszab/gca-shipping:0.0.1"
     livenessUrl: "api/shipping/health"
     env:
@@ -83,6 +83,26 @@ deployments:
           key: postgres_pw
     - name: POSTGRES_URL
       value: postgresql
+  checkout:
+    port: 8083
+    targetPort: 8083
+    portName: checkout-http
+    path: "/api/checkout"
+    replicaCount: 1
+    name: checkout
+    image: "cszab/gca-checkout:0.0.1"
+    livenessUrl: "api/checkout/health"
+    env:
+    - name: DOCKER_USER
+      valueFrom:
+        secretKeyRef:
+          name: gca-secrets
+          key: checkout_user
+    - name: DOCKER_PW
+      valueFrom:
+        secretKeyRef:
+          name: gca-secrets
+          key: checkout_pw
 
 ingress: 
   enabled: true
