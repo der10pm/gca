@@ -21,12 +21,12 @@ deployments:
           key: catalog_pw
   cart:
     port: 8081
-    targetPort: 8080
+    targetPort: 8081
     portName: cart-http
     path: "/api/cart"
     replicaCount: 1
     name: cart
-    image: "cszab/gca-cart:0.0.1"
+    image: "cszab/gca-cart:0.0.2"
     livenessUrl: "api/cart/health"
     env:
     - name: DOCKER_USER

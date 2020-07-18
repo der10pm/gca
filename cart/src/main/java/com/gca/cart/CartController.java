@@ -98,7 +98,7 @@ public class CartController {
      * @return
      */
     @PutMapping("/{id}")
-    public ShopCart PostCart(@RequestParam("newItem") final Long newItem, @PathVariable final Long id) {
+    public ShopCart PutCart(@RequestParam("newItem") final Long newItem, @PathVariable final Long id) {
         final ShopCart temp = repository.findById(id).get();
         temp.getItems().add(newItem);
         repository.save(temp);
