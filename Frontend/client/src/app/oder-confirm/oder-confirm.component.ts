@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { CheckoutService } from '../services/checkout.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-oder-confirm',
@@ -7,9 +9,19 @@ import { Component, OnInit } from '@angular/core';
 })
 export class OderConfirmComponent implements OnInit {
 
-  constructor() { }
+  constructor(public checkout: CheckoutService, private router: Router) { }
+
+  public orderData: any;
 
   ngOnInit(): void {
+    this.orderData = this.checkout.confirmCheckoutData;
+    if (!this.orderData){
+      this.router.navigate(['/']);
+    }
+  }
+
+  getAddress(user: any): string{
+    return '${user.street}, ${user.zip} - ${user.city}, ${user.country}';
   }
 
 }

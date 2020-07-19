@@ -1,1 +1,157 @@
-<p>oder-confirm works!</p>
+<ng-container *ngIf="orderData">
+
+
+
+  <div class="row">
+    <div class="d-none d-sm-block col-md-2"></div>
+    <div class="card col-12 col-md-8 p-0 mt-2">
+      <div class="card-header "><h4>Die Bestellung: </h4>
+      </div>
+      <div class="card-body">
+
+        <div class="row">
+
+          <div class="col-12 col-lg-4" *ngFor="let item of orderData.resolvedCart.items">
+            <div class="row  ">
+              <div class="col-12 text-center">
+                <img width="230" height="140" [src]="item.imageURL" alt="no Found">
+              </div>
+            </div>
+            <div class="row text-center">
+              <div class="col-12">
+                <strong class="text-center">{{item.name}}</strong>
+              </div>
+            </div>
+            <div class="row text-center">
+              <div class="col-12">
+                <small class="text-center">{{item.priceInCent / 100| currency:'EUR ' }}  uvp.</small>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+        <div class="row mt-3">
+          <div class="col-12">
+            <div class="row">
+              <div class="col-12 text-center mb-0">
+                <h4 class="mb-0" style="color: dimgray">
+                  Versandkosten: {{orderData.resolvedCart.shippingCosts / 100| currency:'EUR ' }} </h4>
+                <div class="col-12 text-center">
+                  <h4 style="color: dimgray">
+                    Produktkosten: {{orderData.resolvedCart.overallPrice / 100 | currency:'EUR ' }} </h4>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="row ">
+          <div class="col-12">
+            <div class="row">
+              <div class="col-12 text-center">
+                <h1>
+                  Gesamtkosten: {{(orderData.resolvedCart.overallPrice + orderData.resolvedCart.shippingCosts) / 100| currency:'EUR ' }} </h1>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+    <div class="d-none d-sm-block col-md-2"></div>
+
+  </div>
+
+
+  <div class="row">
+    <div class="d-none d-sm-block col-md-2"></div>
+    <div class="card col-12 col-md-8 p-0 mt-2">
+      <div class="card-header "><h4>Details: </h4>
+      </div>
+      <div class="card-body">
+
+        <div class="row">
+          <div class="col-6 text-right">
+            <strong class="text-right">Bestellnummer: </strong>
+          </div>
+          <div class="col-6">
+            <p class="text-center">{{orderData.shipping.id}}</p>
+          </div>
+          <div class="col-6 text-right">
+            <strong class="text-right">Tracking Nummer: </strong>
+          </div>
+          <div class="col-6">
+            <p class="text-center">{{orderData.shipping.trackId}}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="d-none d-sm-block col-md-2"></div>
+
+  </div>
+
+
+  <div class="row">
+    <div class="d-none d-sm-block col-md-2"></div>
+    <div class="card col-12 col-md-8 p-0 mt-2">
+      <div class="card-header "><h4>Persönnliche Details</h4>
+      </div>
+      <div class="card-body">
+
+        <div class="row">
+          <div class="col-6 text-right">
+            <strong class="text-right">EMail:</strong>
+          </div>
+          <div class="col-6">
+            <p class="text-center">{{orderData.user.mail}}</p>
+          </div>
+          <div class="col-6 text-right">
+            <strong class="text-right">Adresse:</strong>
+          </div>
+          <div class="col-6">
+            <p class="text-center">{{getAddress(orderData.user)}}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="d-none d-sm-block col-md-2"></div>
+
+  </div>
+
+  <div class="row">
+    <div class="d-none d-sm-block col-md-2"></div>
+    <div class="card col-12 col-md-8 p-0 mt-2">
+      <div class="card-header "><h4>Bezahl Details</h4>
+      </div>
+      <div class="card-body">
+
+        <div class="row">
+          <div class="col-6 text-right">
+            <strong class="text-right">Kreditkarte:</strong>
+          </div>
+          <div class="col-6">
+            <p class="text-center">{{orderData.user.credit}}</p>
+          </div>
+          <div class="col-6 text-right">
+            <strong class="text-right">Läuft ab:</strong>
+          </div>
+          <div class="col-6">
+            <p class="text-center">{{orderData.user.month}} /  {{orderData.user.year}}</p>
+          </div>
+          <div class="col-6 text-right">
+            <strong class="text-right">CVV:</strong>
+          </div>
+          <div class="col-6">
+            <p class="text-center">{{orderData.user.cvv}}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="d-none d-sm-block col-md-2"></div>
+
+  </div>
+
+
+</ng-container>
+

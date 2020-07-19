@@ -1,1 +1,200 @@
-<p>cart works!</p>
+<div class="row mt-1">
+  <div class="d-none d-sm-block col-md-2"></div>
+  <div class=" col-2 col-md-2 p-0 ">
+    <button [routerLink]="'/'" type="button" class="btn btn-primary">Weiter Stoebern</button>
+  </div>
+  <div class=" col-8 col-md-4 p-0 ">
+  </div>
+  <div class=" col-2 col-md-2 p-0  text-right">
+    <button (click)="emptyCart()" type="button" class="btn btn-primary">Empty cart</button>
+  </div>
+  <div class="d-none d-sm-block col-md-2"></div>
+</div>
+
+<ng-container *ngIf="catalog$ | async as catalog ;else no_Cart2">
+
+  <div class="row">
+    <div class="d-none d-sm-block col-md-2"></div>
+    <div class="card col-12 col-md-8 p-0 mt-2">
+      <div class="card-header "><h4>Ihr Warenkorb, Sie haben <strong>{{cart.itemCounter}}</strong> Produkte im
+        Warenkorb</h4>
+      </div>
+      <div class="card-body">
+
+        <div class="row">
+          <ng-container *ngIf="catalog.items.length !== 0 ;else no_Cart">
+            <div class="col-12 col-lg-4" *ngFor="let item of catalog.items">
+              <div class="row  ">
+                <div class="col-12 text-center">
+                  <img width="230" height="140" [src]="item.imageURL" alt="no Found">
+                </div>
+              </div>
+              <div class="row text-center">
+                <div class="col-12">
+                  <strong class="text-center">{{item.name}}</strong>
+                </div>
+              </div>
+              <div class="row text-center">
+                <div class="col-12">
+                  <small class="text-center">{{item.priceInCent / 100| currency:'EUR ' }}  uvp.</small>
+                </div>
+              </div>
+            </div>
+          </ng-container>
+        </div>
+
+        <div class="row mt-3">
+          <div class="col-12">
+            <div class="row">
+              <div class="col-12 text-center mb-0">
+                <h4 class="mb-0" style="color: dimgray">
+                  Versandkosten: {{catalog.shippingCosts / 100| currency:'EUR ' }} </h4>
+                <div class="col-12 text-center">
+                  <h4 style="color: dimgray">Produktkosten: {{catalog.overallPrice / 100 | currency:'EUR ' }} </h4>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="row ">
+          <div class="col-12">
+            <div class="row">
+              <div class="col-12 text-center">
+                <h1>Gesamtkosten: {{(catalog.overallPrice + catalog.shippingCosts) / 100| currency:'EUR ' }} </h1>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+    <div class="d-none d-sm-block col-md-2"></div>
+
+  </div>
+
+  <div class="row">
+    <div class="d-none d-sm-block col-md-2"></div>
+    <div class="card col-12 col-md-8 p-0 mt-2">
+      <div class="card-header "><h4>Kontaktdaten</h4>
+      </div>
+      <div class="card-body">
+
+        <div class="row">
+          <div class="col-12">
+            <form [formGroup]="registerForm">
+              <div class="form-group">
+                <div class="row">
+                  <div class=" col-12">
+                    <label>Email</label>
+                    <input type="text" placeholder="max@mustermann.de" formControlName="mail" class="form-control"
+                           [ngClass]="{ 'is-invalid': submitted && f.mail.errors }"/>
+                    <div *ngIf="submitted && f.mail.errors" class="invalid-feedback">
+                      <div *ngIf="f.mail.errors">Ungültige Email</div>
+                    </div>
+                  </div>
+                  <div class=" col-3 mt-1">
+                    <label>Straße</label>
+                    <input type="text" placeholder="Musterstrasse 1" formControlName="street" class="form-control"
+                           [ngClass]="{ 'is-invalid': submitted && f.street.errors }"/>
+                    <div *ngIf="submitted && f.street.errors" class="invalid-feedback">
+                      <div *ngIf="f.street.errors.required">Ungültige Straße</div>
+                    </div>
+                  </div>
+                  <div class=" col-3  mt-1">
+                    <label>Stadt</label>
+                    <input type="text" placeholder="Musterstadt"  formControlName="city" class="form-control"
+                           [ngClass]="{ 'is-invalid': submitted && f.city.errors }"/>
+                    <div *ngIf="submitted && f.city.errors" class="invalid-feedback">
+                      <div *ngIf="f.city.errors.required">Ungültige Stadt</div>
+                    </div>
+                  </div>
+                  <div class=" col-3  mt-1">
+                    <label>PLZ</label>
+                    <input type="number" placeholder="12345" formControlName="zip" class="form-control"
+                           [ngClass]="{ 'is-invalid': submitted && f.zip.errors }"/>
+                    <div *ngIf="submitted && f.zip.errors" class="invalid-feedback">
+                      <div *ngIf="f.zip.errors.required">Ungültige ZIP</div>
+                    </div>
+                  </div>
+                  <div class="col-3  mt-1">
+                    <label>Land</label>
+                    <input type="text" placeholder="Deutschland" f formControlName="country" class="form-control"
+                           [ngClass]="{ 'is-invalid': submitted && f.country.errors }"/>
+                    <div *ngIf="submitted && f.country.errors" class="invalid-feedback">
+                      <div *ngIf="f.country.errors.required">Ungültiges Land</div>
+                    </div>
+                  </div>
+                  <div class=" col-6  mt-1">
+                    <label>Kreditkarte</label>
+                    <input type="text" placeholder="12-3456-78"  formControlName="credit" class="form-control"
+                           [ngClass]="{ 'is-invalid': submitted && f.credit.errors }"/>
+                    <div *ngIf="submitted && f.credit.errors" class="invalid-feedback">
+                      <div *ngIf="f.credit.errors.required">Ungültige Kreditkarte</div>
+                    </div>
+                  </div>
+                  <div class=" col-2  mt-1">
+                    <label>Monat</label>
+                    <input min="1" max="12" type="number" placeholder="1" formControlName="month" class="form-control"
+                           [ngClass]="{ 'is-invalid': submitted && f.month.errors }"/>
+                    <div *ngIf="submitted && f.month.errors" class="invalid-feedback">
+                      <div *ngIf="f.month.errors.required">Ungültiger Monat</div>
+                    </div>
+                  </div>
+                  <div class=" col-2 mt-1">
+                    <label>Jahr</label>
+                    <input type="number" min="1990" max="" placeholder="1970" formControlName="year" class="form-control"
+                           [ngClass]="{ 'is-invalid': submitted && f.year.errors }"/>
+                    <div *ngIf="submitted && f.year.errors" class="invalid-feedback">
+                      <div *ngIf="f.year.errors.required">Ungültiges Jahr</div>
+                    </div>
+                  </div>
+                  <div class=" col-2  mt-1">
+                    <label>CVV</label>
+                    <input type="text"  placeholder="1000" formControlName="cvv" class="form-control"
+                           [ngClass]="{ 'is-invalid': submitted && f.cvv.errors }"/>
+                    <div *ngIf="submitted && f.cvv.errors" class="invalid-feedback">
+                      <div *ngIf="f.cvv.errors.required">Ungültiges CVV</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </form>
+            <button [disabled]="catalog.items.length === 0"  (click)="onSubmit()" type="submit"
+                    [ngClass]="(catalog.items.length === 0) ? 'btn-secondary': 'btn-primary'"  class="btn ">Bestellen</button>
+          </div>
+        </div>
+
+
+      </div>
+    </div>
+    <div class="d-none d-sm-block col-md-2"></div>
+
+  </div>
+
+
+</ng-container>
+
+
+<ng-template #no_Cart2>
+  <div class="row">
+    <div class="d-none d-sm-block col-md-2"></div>
+    <div class="card col-12 col-md-8 p-0 mt-2">
+      <div class="card-header ">Ihre Auswahl, sie haben <strong>{{cart.itemCounter}}</strong> Porsche im Einkaufswagen
+      </div>
+      <div class="card-body">
+        <div class="row">
+          <div class="col-12 text-center">
+            <h1 class=""><span class="badge rounded-pill bg-danger">Keine Autos im Warenkorb</span></h1>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</ng-template>
+
+<ng-template #no_Cart>
+  <div class="col-12 text-center">
+    <h1 class=""><span class="badge rounded-pill bg-danger">Keine Autos im Warenkorb</span></h1>
+  </div>
+</ng-template>
