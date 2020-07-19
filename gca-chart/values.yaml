@@ -114,7 +114,6 @@ autoscaling:
   minReplicas: 1
   maxReplicas: 5
   targetCPUUtilizationPercentage: 20
-
 global:
   postgresql:
     postgresqlDatabase: "gca"

@@ -21,7 +21,7 @@ import io.swagger.annotations.ApiOperation;
 @RestController
 public class CatalogController {
 
-    private ArrayList<ShopItem> cList = new ArrayList<>();
+    private ArrayList<ShopItem> catalog = new ArrayList<>();
 
     @Value("${DOCKER_USER:catalog}")
     private String DOCKER_USER;
@@ -30,17 +30,20 @@ public class CatalogController {
     private String DOCKER_PW;
     
     public CatalogController() {
-
+        catalog.add(new ShopItem(1L, "Test Artikel", 5000, ""));
+        catalog.add(new ShopItem(2L, "Test Artikel 2", 5000, ""));
+        catalog.add(new ShopItem(3L, "Test Artikel 3", 5000, ""));
+        catalog.add(new ShopItem(4L, "Test Artikel 4", 5000, ""));
     }
 
     @GetMapping("/")
     public Collection<ShopItem> GetCatalog() {
-        return cList;
+        return catalog;
     }
 
     @GetMapping("/{id}")
     public ShopItem GetItem(@PathVariable final Long id) {
-        for (ShopItem item : cList) {
+        for (ShopItem item : catalog) {
             if (item.getId().equals(id)) {
                 return item;
             }

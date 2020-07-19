@@ -55,11 +55,17 @@
             "projectName": "checkout",
             "args": "",
             "env": {
-                "POSTGRES_URL": "localhost:5432",
-                "POSTGRES_USER": "psql",
-                "POSTGRES_PW": "psql_pw",
                 "DOCKER_USER": "checkout",
                 "DOCKER_PW": "checkout_pw",
+                "DOCKER_CART_USER": "cart",
+                "DOCKER_CART_PW": "cart_pw",
+                "DOCKER_CATALOG_USER": "catalog",
+                "DOCKER_CATALOG_PW": "catalog_pw",
+                "DOCKER_SHIPPING_USER": "shipping",
+                "DOCKER_SHIPPING_PW": "shipping_pw",
+                "CATALOG_URL": "localhost:8080",
+                "CART_URL": "localhost:8081",
+                "SHIPPING_URL": "localhost:8082"
             }
         }, 
     ]
