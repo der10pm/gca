@@ -30,6 +30,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 
+import io.github.resilience4j.bulkhead.annotation.Bulkhead;
+import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
+import io.github.resilience4j.ratelimiter.annotation.RateLimiter;
 import io.swagger.annotations.ApiOperation;
 
 @CrossOrigin(origins = "*", allowedHeaders = "*")
@@ -68,6 +71,8 @@ public class CheckoutController {
     RestTemplate restTemplate;
 
     private static final Logger LOG = LoggerFactory.getLogger(CheckoutController.class);
+
+    private Long cachedCost = 0L;
 
     @GetMapping("/{cartId}")
     @ApiOperation(value = "Show checkout items from cart with given Id", response = Order.class)
@@ -179,11 +184,7 @@ public class CheckoutController {
         return map;
     }
 
-    @Retryable(
-        value = {SocketTimeoutException.class},
-        maxAttempts = 2,
-        backoff = @Backoff(delay = 1000)
-    )
+    @Bulkhead(name = "cart", fallbackMethod = "getRecoveryCart", type = Bulkhead.Type.SEMAPHORE)
     private ShopCart getCart(Long id) {
         ShopCart cart;
         HttpHeaders headers = new HttpHeaders();
@@ -199,11 +200,7 @@ public class CheckoutController {
         return new ShopCart();
     }
     
-    @Retryable(
-        value = {SocketTimeoutException.class},
-        maxAttempts = 2,
-        backoff = @Backoff(delay = 1000)
-    )
+    @CircuitBreaker(name = "catalog", fallbackMethod = "getRecoveryCatalog")
     private Item[] getCatalog() {
         Item[] items;
         HttpHeaders headers = new HttpHeaders();
@@ -222,21 +219,18 @@ public class CheckoutController {
         return new Item[0];
     }
 
-    @Retryable(
-        value = {SocketTimeoutException.class},
-        maxAttempts = 2,
-        backoff = @Backoff(delay = 1000)
-    )
+    @RateLimiter(name="stockService", fallbackMethod = "getRecoveryCost")
     private Long getCost(Long cartPrice) {
         HttpHeaders headers = new HttpHeaders();
         headers.setBasicAuth(new String(Base64.getEncoder().encode((DOCKER_SHIPPING_USER + ":" + DOCKER_SHIPPING_PW).getBytes())));
         HttpEntity<String> entity = new HttpEntity<String>(headers);
-        return restTemplate.exchange("http://" + shipping_Url + ":8082/shipping/api/cost/?cost={cost}", HttpMethod.GET, entity, Long.class, cartPrice).getBody();
+        this.cachedCost = restTemplate.exchange("http://" + shipping_Url + ":8082/shipping/api/cost/?cost={cost}", HttpMethod.GET, entity, Long.class, cartPrice).getBody();
+        return this.cachedCost;
     }
 
     @Recover
     private Long getRecoveryCost(SocketTimeoutException e) {
-        return 0L;
+        return this.cachedCost;
     }
 
     @Retryable(

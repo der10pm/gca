@@ -10,7 +10,7 @@
 	</parent>
 	<groupId>com.gca</groupId>
 	<artifactId>cart</artifactId>
-	<version>0.0.2</version>
+	<version>0.0.4</version>
 	<name>Cart</name>
 	<description>cart</description>
 
@@ -72,6 +72,7 @@
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
+				<version>2.3.0.RELEASE</version>
 				<configuration>
 					<image>
 						<name>cszab/gca-${project.artifactId}:${project.version}</name>

@@ -1,0 +1,35 @@
+server:
+    tomcat:
+        threads:
+         max: 15
+    servlet:
+        context-path: /checkout
+    port: 8083
+logging:
+    level:
+        com:
+            gca:
+                checkout: DEBUG
+resilience4j.circuitbreaker:
+  configs:
+    default:
+      slidingWindowType: COUNT_BASED
+      slidingWindowSize: 100
+      permittedNumberOfCallsInHalfOpenState: 10
+      waitDurationInOpenState: 10
+      failureRateThreshold: 60
+      registerHealthIndicator: true
+  instances:
+    catalog:
+      baseConfig: default
+resilience4j.bulkhead:
+  instances:
+    cart:
+      maxConcurrentCalls: 10
+      maxWaitDuration: 10ms
+resilience4j.ratelimiter:
+  instances:
+    shippingCost:
+      limitForPeriod: 1
+      limitRefreshPeriod: 5s
+      timeoutDuration: 0s

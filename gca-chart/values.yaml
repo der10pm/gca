@@ -6,7 +6,7 @@ deployments:
     path: "/catalog"
     replicaCount: 1
     name: catalog
-    image: "cszab/gca-catalog:0.0.8"
+    image: "cszab/gca-catalog:0.0.9"
     livenessUrl: "catalog/api/health"
     env:
     - name: DOCKER_USER
@@ -26,7 +26,7 @@ deployments:
     path: "/cart"
     replicaCount: 1
     name: cart
-    image: "cszab/gca-cart:0.0.3"
+    image: "cszab/gca-cart:0.0.4"
     livenessUrl: "cart/api/health"
     env:
     - name: DOCKER_USER
@@ -58,7 +58,7 @@ deployments:
     path: "/shipping"
     replicaCount: 1
     name: shipping
-    image: "cszab/gca-shipping:0.0.3"
+    image: "cszab/gca-shipping:0.0.4"
     livenessUrl: "shipping/api/health"
     env:
     - name: DOCKER_USER
@@ -90,7 +90,7 @@ deployments:
     path: "/checkout"
     replicaCount: 1
     name: checkout
-    image: "cszab/gca-checkout:0.0.10"
+    image: "cszab/gca-checkout:0.0.11"
     livenessUrl: "checkout/api/health"
     env:
     - name: DOCKER_USER

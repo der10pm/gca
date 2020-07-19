@@ -28,6 +28,9 @@ public class CatalogController {
 
     @Value("${DOCKER_PW:catalog}")
     private String DOCKER_PW;
+
+    @Value("${DOCKER_TIMEOUT:0}")
+    private Long DOCKER_TIMEOUT;
     
     public CatalogController() {
         catalog.add(new ShopItem(1L, "Äpfel", 3000, "https://cdn.pixabay.com/photo/2017/09/26/13/42/apple-2788662_960_720.jpg"));
@@ -45,6 +48,9 @@ public class CatalogController {
     @GetMapping("/")
     @ApiOperation(value = "Get all itemms from catalog", response = ShopItem[].class)
     public Collection<ShopItem> GetCatalog() {
+        try {
+            Thread.sleep(DOCKER_TIMEOUT);
+        } catch (Exception e) {}
         return catalog;
     }
 

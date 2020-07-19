@@ -10,7 +10,7 @@
 	</parent>
 	<groupId>com.gca</groupId>
 	<artifactId>shipping</artifactId>
-	<version>0.0.2</version>
+	<version>0.0.4</version>
 	<name>Shipping</name>
 	<description>Shipping</description>
 

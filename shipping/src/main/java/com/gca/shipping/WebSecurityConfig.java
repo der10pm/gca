@@ -24,7 +24,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         http.addFilterBefore(new CorsFilter(), ChannelProcessingFilter.class);
         http
                 .authorizeRequests()
-                .antMatchers("/health")
+                .antMatchers("/**/health")
                 .permitAll()
                 .anyRequest()
                 .fullyAuthenticated()

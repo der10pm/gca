@@ -28,6 +28,7 @@
             "env": {
                 "DOCKER_USER": "catalog",
                 "DOCKER_PW": "catalog_pw",
+                "DOCKER_TIMEOUT": 0
             }
         }, {
             "type": "java",
