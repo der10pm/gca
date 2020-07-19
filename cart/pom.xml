@@ -73,7 +73,14 @@
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
 				<configuration>
-					<repository>cszab/${project.artifactId}</repository>
+					<image>
+						<name>cszab/gca-${project.artifactId}:${project.version}</name>
+						<env>
+							<POSTGRES_URL>localhost:5432</POSTGRES_URL>
+							<POSTGRES_USER>psql</POSTGRES_USER>
+							<POSTGRES_PW>psql_pw</POSTGRES_PW>
+						</env>
+					</image>
 				</configuration>
 			</plugin>
 		</plugins>

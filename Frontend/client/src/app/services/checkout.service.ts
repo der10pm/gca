@@ -9,12 +9,12 @@ import { ObserveOnSubscriber } from 'rxjs/internal/operators/observeOn';
 })
 export class CheckoutService {
 
-  private checkoutApi = '${environment.CHECKOUT_URL}/api';
+  private checkoutApi = `${environment.CHECKOUT_URL}/checkout/api/`;
 
   public confirmCheckoutData: any;
 
-  private checkoutApiUser = '${environment.CHECKOUT_USER}';
-  private checkoutApiPW = '${environment.CHECKOUT_PW}';
+  private checkoutApiUser = `${environment.CHECKOUT_USER}`;
+  private checkoutApiPW = `${environment.CHECKOUT_PW}`;
 
   constructor( private http: HttpClient) {
     console.log({Checkout: { url: this.checkoutApi, PW: this.checkoutApiPW, User: this.checkoutApiUser}});
@@ -25,7 +25,7 @@ export class CheckoutService {
       authorization: 'Basic ' + btoa(this.checkoutApiUser + ':' + this.checkoutApiPW)
     } );
 
-    return this.http.get<any>(this.checkoutApi + '/checkout/' + cardID, {headers});
+    return this.http.get<any>(this.checkoutApi + cardID, {headers});
    }
 
    public confirmCheckout(cardID: string, body: any): Observable<any>{
@@ -33,6 +33,6 @@ export class CheckoutService {
       authorization: 'Basic ' + btoa(this.checkoutApiUser + ':' + this.checkoutApiPW)
     } );
 
-    return this.http.post<any>(this.checkoutApi + '/placeOrder/' + cardID, body, {headers});
+    return this.http.post<any>(this.checkoutApi + cardID, body, {headers});
    }
 }

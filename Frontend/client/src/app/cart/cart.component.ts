@@ -25,18 +25,18 @@ export class CartComponent implements OnInit {
               private router: Router) {
 
     this.catalog$ =   checkout.getCheckout(cart.getLocalCardID());
-
+    
   }
 
   ngOnInit(): void {
 
     this.registerForm = this.formBuilder.group({
-      mail: ['max@mustermann.de', [Validators.required, Validators.email]],
+      email: ['max@mustermann.de', [Validators.required, Validators.email]],
       street: ['Musterstrasse 1', Validators.required],
       zip: ['12345', [Validators.required]],
       city: ['Musterstadt', [Validators.required]],
       country: ['Deutschland', [Validators.required]],
-      credit: ['1000', [Validators.required]],
+      creditCard: ['1000', [Validators.required]],
       month: ['1', [Validators.required]],
       year: ['1970', [Validators.required]],
       cvv: ['100', [Validators.required]]
@@ -66,7 +66,7 @@ export class CartComponent implements OnInit {
       console.log(x);
       this.catalog$ = null;
       this.cart.emptyCart();
-      this.router.navigate(['/orderconfirm']);
+      this.router.navigate(['/order-confirm']);
       });
   }
 }

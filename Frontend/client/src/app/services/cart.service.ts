@@ -10,11 +10,11 @@ import { map } from 'rxjs/operators';
 })
 export class CartService {
 
-  private cartApi = '${environment.CART_URL/api';
+  private cartApi = `${environment.CART_URL}/cart/api/`;
 
   private currentCardID: string;
-  private cartApiUser = '${environment.CART_USER}';
-  private cartApiPW = '${environment.CART_PW}';
+  private cartApiUser = `${environment.CART_USER}`;
+  private cartApiPW = `${environment.CART_PW}`;
 
   public itemCounter$: Subject<number> = new Subject<number>();
   public itemsInCart: string[];
@@ -31,23 +31,27 @@ export class CartService {
       Authorization: 'Basic ' + btoa(this.cartApiUser + ':' + this.cartApiPW)
     });
 
-    return this.http.get<any>(this.cartApi + '/Carts/' + id, {headers}).pipe(map(x => {
+    return this.http.get<any>(this.cartApi + id, {headers}).pipe(map(x => {
       this.itemsInCart = x.items;
       this.itemCounter$.next(x.items.length);
       return x;
     }));
    }
 
-   getLocalCardID(): string{
+   getLocalCardID(): string {
      return this.currentCardID;
    }
 
-   newCart(): Observable<string>{
+   getItemsInCart(): string[] {
+    return this.itemsInCart;
+   }
+
+   newCart(): Observable<any>{
     const headers = new HttpHeaders({
       Authorization: 'Basic ' + btoa(this.cartApiUser + ':' + this.cartApiPW)
     });
 
-    return this.http.post<any>(this.cartApi + '/newCart', {}, {headers}).pipe(map(x => {
+    return this.http.post<any>(this.cartApi, [], {headers}).pipe(map(x => {
       console.log('newCart');
       this.itemsInCart = [];
       this.itemCounter$.next(0);
@@ -60,8 +64,7 @@ export class CartService {
     const headers = new HttpHeaders({
       Authorization: 'Basic ' + btoa(this.cartApiUser + ':' + this.cartApiPW)
     });
-
-    return this.http.put<any>(this.cartApi + '/addItem' + this.currentCardID + '?newItem=' + itemID, {}, {headers});
+    return this.http.put<any>(this.cartApi + this.currentCardID + '?newItem=' + itemID, {}, {headers});
    }
 
    setLocalCardID(localStorageID: string){
@@ -74,7 +77,7 @@ export class CartService {
       Authorization: 'Basic ' + btoa(this.cartApiUser + ':' + this.cartApiPW)
     });
 
-    return this.http.delete<any>(this.cartApi + '/delete/' + itemdID, {headers});
+    return this.http.delete<any>(this.cartApi + itemdID, {headers});
    }
 
    emptyCart(){
@@ -84,7 +87,7 @@ export class CartService {
      this.deleteCart(id).toPromise().then(() => {
        localStorage.removeItem(localName)
      }).then(() =>{
-       this.newCart().subscribe(x => localStorage.setItem(localName, x));
+       this.newCart().subscribe(x => localStorage.setItem(localName, x.id));
      });
    }
 }

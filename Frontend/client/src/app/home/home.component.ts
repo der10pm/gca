@@ -17,9 +17,9 @@ export class HomeComponent implements OnInit {
   constructor(private catalogService: CatalogService, private cartService: CartService) {
     this.catalog$ = this.metaItemList.asObservable();
     this.catalogService.getCatalog().subscribe( x => {
-      x = (x as any[]);
+      x = <any[]>x;
       const cartItems = this.cartService.itemsInCart;
-      this.realItemList = x.Filter( x => !cartItems.includes(x.id));
+      this.realItemList = x.filter( x => !cartItems.includes(x.id));
       this.metaItemList.next(this.realItemList);
     });
    }

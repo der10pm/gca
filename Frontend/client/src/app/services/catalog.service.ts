@@ -7,10 +7,10 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class CatalogService {
-  private catalogApi = '${environment.CATALOG_URL}/api/catalog';
+  private catalogApi = `${environment.CATALOG_URL}/catalog/api/`;
 
-  private catalogApiUser = '${environment.CATALOG_USER}';
-  private catalogApiPW = '${environment.CATALOG_PW}';
+  private catalogApiUser = `${environment.CATALOG_USER}`;
+  private catalogApiPW = `${environment.CATALOG_PW}`;
 
   constructor( private http: HttpClient) {
     console.log({Catalog: {url: this.catalogApi, PW: this.catalogApiPW, User: this.catalogApiUser}});
@@ -22,5 +22,13 @@ export class CatalogService {
     });
 
     return this.http.get<any>(this.catalogApi, {headers});
+   }
+
+   getItem(id: string): Observable<any> {
+    const headers = new HttpHeaders({
+      Authorization: 'Basic ' + btoa(this.catalogApiUser + ':' + this.catalogApiPW)
+    });
+
+    return this.http.get<any>(this.catalogApi + id, {headers});
    }
 }

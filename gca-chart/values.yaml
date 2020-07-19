@@ -3,11 +3,11 @@ deployments:
     port: 8080
     targetPort: 8080
     portName: catalog-http
-    path: "/api/catalog"
+    path: "/catalog"
     replicaCount: 1
     name: catalog
-    image: "cszab/gca-catalog:0.0.7"
-    livenessUrl: "api/catalog/health"
+    image: "cszab/gca-catalog:0.0.8"
+    livenessUrl: "catalog/api/health"
     env:
     - name: DOCKER_USER
       valueFrom:
@@ -23,11 +23,11 @@ deployments:
     port: 8081
     targetPort: 8081
     portName: cart-http
-    path: "/api/cart"
+    path: "/cart"
     replicaCount: 1
     name: cart
-    image: "cszab/gca-cart:0.0.2"
-    livenessUrl: "api/cart/health"
+    image: "cszab/gca-cart:0.0.3"
+    livenessUrl: "cart/api/health"
     env:
     - name: DOCKER_USER
       valueFrom:
@@ -55,11 +55,11 @@ deployments:
     port: 8082
     targetPort: 8082
     portName: shipping-http
-    path: "/api/shipping"
+    path: "/shipping"
     replicaCount: 1
     name: shipping
-    image: "cszab/gca-shipping:0.0.2"
-    livenessUrl: "api/shipping/health"
+    image: "cszab/gca-shipping:0.0.3"
+    livenessUrl: "shipping/api/health"
     env:
     - name: DOCKER_USER
       valueFrom:
@@ -87,11 +87,11 @@ deployments:
     port: 8083
     targetPort: 8083
     portName: checkout-http
-    path: "/api/checkout"
+    path: "/checkout"
     replicaCount: 1
     name: checkout
-    image: "cszab/gca-checkout:0.0.9"
-    livenessUrl: "api/checkout/health"
+    image: "cszab/gca-checkout:0.0.10"
+    livenessUrl: "checkout/api/health"
     env:
     - name: DOCKER_USER
       valueFrom:
@@ -139,6 +139,52 @@ deployments:
       value: cart
     - name: DOCKER_SHIPPING_URL
       value: shipping
+  frontend:
+    port: 80
+    targetPort: 80
+    portName: frontend-http
+    path: "/"
+    replicaCount: 1
+    name: frontend
+    image: "cszab/gca-frontend:0.0.1"
+    livenessUrl: "/"
+    env:
+    - name: CATALOG_USER
+      valueFrom:
+        secretKeyRef:
+          name: gca-secrets
+          key: catalog_user
+    - name: CATALOG_PW
+      valueFrom:
+        secretKeyRef:
+          name: gca-secrets
+          key: catalog_pw
+    - name: CART_USER
+      valueFrom:
+        secretKeyRef:
+          name: gca-secrets
+          key: cart_user
+    - name: CART_PW
+      valueFrom:
+        secretKeyRef:
+          name: gca-secrets
+          key: cart_pw
+    - name: CHECKOUT_USER
+      valueFrom:
+        secretKeyRef:
+          name: gca-secrets
+          key: checkout_user
+    - name: CHECKOUT_PW
+      valueFrom:
+        secretKeyRef:
+          name: gca-secrets
+          key: checkout_pw
+    - name: DOCKER_CATALOG_URL
+      value: catalog
+    - name: CART_URL
+      value: cart
+    - name: CHECKOUT_URL
+      value: checkout
 
 ingress: 
   enabled: true

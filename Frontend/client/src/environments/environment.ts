@@ -5,15 +5,15 @@
 export const environment = {
   production: false,
   CART_URL: 'http://localhost:8081',
-  CATALOG_URL: 'http://localhost:8082',
+  CATALOG_URL: 'http://localhost:8080',
   CHECKOUT_URL: 'http://localhost:8083',
 
   CART_USER: 'cart',
-  CART_PW: 'cart123',
+  CART_PW: 'cart_pw',
   CHECKOUT_USER: 'checkout',
-  CHECKOUT_PW: 'checkout123',
+  CHECKOUT_PW: 'checkout_pw',
   CATALOG_USER: 'catalog',
-  CATALOG_PW: 'catalog123'
+  CATALOG_PW: 'catalog_pw'
 
 };
 

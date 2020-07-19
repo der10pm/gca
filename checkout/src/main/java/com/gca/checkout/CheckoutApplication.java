@@ -20,8 +20,8 @@ public class CheckoutApplication {
 	@Bean
 	public RestTemplate getRestTemplate(RestTemplateBuilder restTemplateBuilder){
 	return restTemplateBuilder
-			.setConnectTimeout(Duration.ofSeconds(5))
-			.setReadTimeout(Duration.ofSeconds(5))
+			.setConnectTimeout(Duration.ofSeconds(3))
+			.setReadTimeout(Duration.ofSeconds(3))
 			.build();
 		}
 

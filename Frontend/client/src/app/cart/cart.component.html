@@ -6,7 +6,7 @@
   <div class=" col-8 col-md-4 p-0 ">
   </div>
   <div class=" col-2 col-md-2 p-0  text-right">
-    <button (click)="emptyCart()" type="button" class="btn btn-primary">Empty cart</button>
+    <button (click)="emptyCart()" type="button" class="btn btn-primary">Warenkorb leeren</button>
   </div>
   <div class="d-none d-sm-block col-md-2"></div>
 </div>
@@ -36,7 +36,7 @@
               </div>
               <div class="row text-center">
                 <div class="col-12">
-                  <small class="text-center">{{item.priceInCent / 100| currency:'EUR ' }}  uvp.</small>
+                  <small class="text-center">{{item.price / 100| currency:'EUR ' }}  uvp.</small>
                 </div>
               </div>
             </div>
@@ -48,9 +48,9 @@
             <div class="row">
               <div class="col-12 text-center mb-0">
                 <h4 class="mb-0" style="color: dimgray">
-                  Versandkosten: {{catalog.shippingCosts / 100| currency:'EUR ' }} </h4>
+                  Versandkosten: {{catalog.shippingCost / 100| currency:'EUR ' }} </h4>
                 <div class="col-12 text-center">
-                  <h4 style="color: dimgray">Produktkosten: {{catalog.overallPrice / 100 | currency:'EUR ' }} </h4>
+                  <h4 style="color: dimgray">Produktkosten: {{catalog.cartPrice / 100 | currency:'EUR ' }} </h4>
                 </div>
               </div>
             </div>
@@ -61,7 +61,7 @@
           <div class="col-12">
             <div class="row">
               <div class="col-12 text-center">
-                <h1>Gesamtkosten: {{(catalog.overallPrice + catalog.shippingCosts) / 100| currency:'EUR ' }} </h1>
+                <h1>Gesamtkosten: {{(catalog.cartPrice + catalog.shippingCost) / 100| currency:'EUR ' }} </h1>
               </div>
             </div>
           </div>
@@ -87,10 +87,10 @@
                 <div class="row">
                   <div class=" col-12">
                     <label>Email</label>
-                    <input type="text" placeholder="max@mustermann.de" formControlName="mail" class="form-control"
-                           [ngClass]="{ 'is-invalid': submitted && f.mail.errors }"/>
-                    <div *ngIf="submitted && f.mail.errors" class="invalid-feedback">
-                      <div *ngIf="f.mail.errors">Ungültige Email</div>
+                    <input type="text" placeholder="max@mustermann.de" formControlName="email" class="form-control"
+                           [ngClass]="{ 'is-invalid': submitted && f.email.errors }"/>
+                    <div *ngIf="submitted && f.email.errors" class="invalid-feedback">
+                      <div *ngIf="f.email.errors">Ungültige Email</div>
                     </div>
                   </div>
                   <div class=" col-3 mt-1">
@@ -127,10 +127,10 @@
                   </div>
                   <div class=" col-6  mt-1">
                     <label>Kreditkarte</label>
-                    <input type="text" placeholder="12-3456-78"  formControlName="credit" class="form-control"
-                           [ngClass]="{ 'is-invalid': submitted && f.credit.errors }"/>
-                    <div *ngIf="submitted && f.credit.errors" class="invalid-feedback">
-                      <div *ngIf="f.credit.errors.required">Ungültige Kreditkarte</div>
+                    <input type="text" placeholder="12-3456-78"  formControlName="creditCard" class="form-control"
+                           [ngClass]="{ 'is-invalid': submitted && f.creditCard.errors }"/>
+                    <div *ngIf="submitted && f.creditCard.errors" class="invalid-feedback">
+                      <div *ngIf="f.creditCard.errors.required">Ungültige Kreditkarte</div>
                     </div>
                   </div>
                   <div class=" col-2  mt-1">
@@ -180,12 +180,12 @@
   <div class="row">
     <div class="d-none d-sm-block col-md-2"></div>
     <div class="card col-12 col-md-8 p-0 mt-2">
-      <div class="card-header ">Ihre Auswahl, sie haben <strong>{{cart.itemCounter}}</strong> Porsche im Einkaufswagen
+      <div class="card-header ">Ihre Auswahl, sie haben <strong>{{cart.itemCounter}}</strong> Gegenstände im Einkaufswagen
       </div>
       <div class="card-body">
         <div class="row">
           <div class="col-12 text-center">
-            <h1 class=""><span class="badge rounded-pill bg-danger">Keine Autos im Warenkorb</span></h1>
+            <h1 class=""><span class="badge rounded-pill bg-danger">Keine Gegenstände im Warenkorb</span></h1>
           </div>
         </div>
       </div>
@@ -195,6 +195,6 @@
 
 <ng-template #no_Cart>
   <div class="col-12 text-center">
-    <h1 class=""><span class="badge rounded-pill bg-danger">Keine Autos im Warenkorb</span></h1>
+    <h1 class=""><span class="badge rounded-pill bg-danger">Keine Gegenstände im Warenkorb</span></h1>
   </div>
 </ng-template>

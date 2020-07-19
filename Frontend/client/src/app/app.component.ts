@@ -28,7 +28,7 @@ export class AppComponent implements OnInit {
       console.log('load CardID');
       this.cartService.setLocalCardID(id);
     }else{
-      this.cartService.newCart().subscribe( x => localStorage.setItem(localName, x));
+      this.cartService.newCart().subscribe( x => localStorage.setItem(localName, x.id));
     }
   }
 

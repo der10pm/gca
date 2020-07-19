@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 import io.swagger.annotations.ApiOperation;
 
 @CrossOrigin(origins = "*", allowedHeaders = "*")
-@RequestMapping("/")
+@RequestMapping("/api")
 @RestController
 public class ShippingController {
     
@@ -24,22 +24,26 @@ public class ShippingController {
     private ShippingRepository repository;
 
     @GetMapping("/")
+    @ApiOperation(value = "Get all shipments", response = Shipment[].class)
     public Iterable<Shipment> GetShipping() {
         return repository.findAll();
     }
     
     @GetMapping("/{id}")
+    @ApiOperation(value = "Get shipment with id", response = Shipment.class)
     public Optional<Shipment> GetShipping(@PathVariable Long id) {
         return repository.findById(id);
     }
 
     @PostMapping("/")
+    @ApiOperation(value = "Create shipment", response = Shipment.class)
     public Shipment PostShipping(@RequestParam Long cartId) {
         Shipment s = new Shipment(cartId);        
         return repository.save(s);
     }
 
     @GetMapping("/cost")
+    @ApiOperation(value = "Calculate shipping cost", response = Long.class)
     public Long CalculateShippingCost(@RequestParam Long cost) {
         Long ret = 0L;
         if (cost > 0 && cost <= 10000) {

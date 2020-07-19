@@ -14,11 +14,10 @@ public class Shipment {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     private Long cartId;
-    private UUID trackingId;
+    private UUID trackingId = UUID.randomUUID();
 
 
     public Shipment() {
-        trackingId = UUID.randomUUID();
     }
 
     public Shipment(Long cartId) {

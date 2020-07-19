@@ -21,7 +21,7 @@ export class OderConfirmComponent implements OnInit {
   }
 
   getAddress(user: any): string{
-    return '${user.street}, ${user.zip} - ${user.city}, ${user.country}';
+    return `${user.street}, ${user.zip} - ${user.city}, ${user.country}`;
   }
 
 }

@@ -22,19 +22,15 @@ import org.springframework.web.bind.annotation.RestController;
 import io.swagger.annotations.ApiOperation;
 
 @CrossOrigin(origins = "*", allowedHeaders = "*")
-@RequestMapping("/")
+@RequestMapping("/api")
 @RestController
 public class CartController {
 
     @Autowired
     private CartRepository repository;
 
-    /**
-     * endpoint create new cart
-     *
-     * @return
-     */
     @PostMapping("/")
+    @ApiOperation(value = "Post new cart", response = ShopCart.class)
     public @ResponseBody ShopCart PostCart(@RequestBody final Collection<Long> body) {
 
         final ShopCart temp = new ShopCart();
@@ -43,46 +39,28 @@ public class CartController {
         return temp;
     }
 
-    /**
-     * endpoint get all carts ()
-     * 
-     * @return
-     */
     @GetMapping("/")
+    @ApiOperation(value = "Get all saved carts", response = ShopCart[].class)
     public Iterable<ShopCart> GetCarts() {
         return repository.findAll();
     }
 
-    /**
-     * endpoint get cart by id
-     * 
-     * @param id
-     * @return
-     */
     @GetMapping("/{id}")
+    @ApiOperation(value = "Get cart with specified id", response = ShopCart.class)
     public Optional<ShopCart> GetCart(@PathVariable final Long id) {
         return repository.findById(id);
     }
 
-    /**
-     * endpoint delete cart by id
-     * 
-     * @param id
-     * @return
-     */
     @DeleteMapping("/{id}")
+    @ApiOperation(value = "Delete Cart")
     public ResponseEntity<String> DeleteCart(@PathVariable final Long id) {
         repository.deleteById(id);
 
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
-    /**
-     * endpoint delete all carts
-     * 
-     * @return
-     */
     @DeleteMapping("/")
+    @ApiOperation(value = "Delete all carts")
     public ResponseEntity<String> DeleteAll() {
 
         repository.deleteAll();
@@ -90,14 +68,8 @@ public class CartController {
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
-    /**
-     * endpoint add item id to cart
-     * 
-     * @param newItem
-     * @param id
-     * @return
-     */
     @PutMapping("/{id}")
+    @ApiOperation(value = "Add Item to cart", response = ShopCart.class)
     public ShopCart PutCart(@RequestParam("newItem") final Long newItem, @PathVariable final Long id) {
         final ShopCart temp = repository.findById(id).get();
         temp.getItems().add(newItem);

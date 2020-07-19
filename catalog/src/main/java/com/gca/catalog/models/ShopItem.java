@@ -2,11 +2,17 @@ package com.gca.catalog.models;
 
 import java.util.Objects;
 
+import io.swagger.annotations.ApiModelProperty;
+
 public class ShopItem {
 
+    @ApiModelProperty(notes = "Item ID")
     private Long id;
+    @ApiModelProperty(notes = "Item name")
     private String name;
+    @ApiModelProperty(notes = "Item price in cents")
     private int price;
+    @ApiModelProperty(notes = "Item image")
     private String imageURL;
 
     public ShopItem() {

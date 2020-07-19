@@ -33,7 +33,7 @@ import org.springframework.web.client.RestTemplate;
 import io.swagger.annotations.ApiOperation;
 
 @CrossOrigin(origins = "*", allowedHeaders = "*")
-@RequestMapping("/")
+@RequestMapping("/api")
 @RestController
 public class CheckoutController {
 
@@ -69,8 +69,55 @@ public class CheckoutController {
 
     private static final Logger LOG = LoggerFactory.getLogger(CheckoutController.class);
 
+    @GetMapping("/{cartId}")
+    @ApiOperation(value = "Show checkout items from cart with given Id", response = Order.class)
+    public Order GetCheckout(@PathVariable Long cartId) {
+        ShopCart cart;
+        Item[] items;
+
+        try {
+            cart = getCart(cartId);
+        } catch (Exception e) {
+            LOG.error("Error getting cart", cartId);
+            LOG.error(e.getMessage());
+            return null;
+        }
+        try {
+            items = getCatalog();
+        } catch (Exception e) {
+            LOG.error("Error getting catalog");
+            LOG.error(e.getMessage());
+            return null;
+        }
+
+        ArrayList<Item> cartItems = new ArrayList<Item>();
+        Long cartPrice = Long.valueOf(0);
+
+        for (Item item : items) {
+            if (cart.getItems().contains(item.getId())) {
+                cartItems.add(item);
+                cartPrice += item.getPrice();
+            }
+        }
+
+        Order order = new Order();
+        order.setCartPrice(cartPrice);
+        order.setItems(cartItems);
+
+        try {
+            order.setShippingCost(getCost(cartPrice));
+        } catch (Exception e) {
+            LOG.error("Error getting shippingCost", cartPrice);
+            LOG.error(e.getMessage());
+            return null;
+        }
+
+        return order;
+    }
+
     @PostMapping("/{cartId}")
-    public Order postCheckout(@RequestBody UserInfo body, @PathVariable Long cartId) {
+    @ApiOperation(value = "Checkout items from cart with given Id", response = Order.class)
+    public Order PostCheckout(@RequestBody UserInfo body, @PathVariable Long cartId) {
         LOG.debug("Request started");
         ShopCart cart;
         Item[] items;
@@ -134,7 +181,7 @@ public class CheckoutController {
 
     @Retryable(
         value = {SocketTimeoutException.class},
-        maxAttempts = 3,
+        maxAttempts = 2,
         backoff = @Backoff(delay = 1000)
     )
     private ShopCart getCart(Long id) {
@@ -142,7 +189,7 @@ public class CheckoutController {
         HttpHeaders headers = new HttpHeaders();
         headers.setBasicAuth(new String(Base64.getEncoder().encode((DOCKER_CART_USER + ":" + DOCKER_CART_PW).getBytes())));
         HttpEntity<String> entity = new HttpEntity<String>(headers);
-        cart = restTemplate.exchange("http://" + cart_Url + ":8081/api/cart/{id}", HttpMethod.GET, entity, ShopCart.class, id).getBody();
+        cart = restTemplate.exchange("http://" + cart_Url + ":8081/cart/api/{id}", HttpMethod.GET, entity, ShopCart.class, id).getBody();
         if (cart == null) cart = new ShopCart();
         return cart;
     }
@@ -154,7 +201,7 @@ public class CheckoutController {
     
     @Retryable(
         value = {SocketTimeoutException.class},
-        maxAttempts = 3,
+        maxAttempts = 2,
         backoff = @Backoff(delay = 1000)
     )
     private Item[] getCatalog() {
@@ -162,7 +209,7 @@ public class CheckoutController {
         HttpHeaders headers = new HttpHeaders();
         headers.setBasicAuth(new String(Base64.getEncoder().encode((DOCKER_CATALOG_USER + ":" + DOCKER_CATALOG_PW).getBytes())));
         HttpEntity<String> entity = new HttpEntity<String>(headers);
-        ResponseEntity<Item[]> response = restTemplate.exchange("http://" + catalog_Url + ":8080/api/catalog", HttpMethod.GET, entity, Item[].class);
+        ResponseEntity<Item[]> response = restTemplate.exchange("http://" + catalog_Url + ":8080/catalog/api/", HttpMethod.GET, entity, Item[].class);
         items = response.getBody();
         if (items == null || items.length == 0) {
             items = new Item[0];
@@ -177,14 +224,14 @@ public class CheckoutController {
 
     @Retryable(
         value = {SocketTimeoutException.class},
-        maxAttempts = 3,
+        maxAttempts = 2,
         backoff = @Backoff(delay = 1000)
     )
     private Long getCost(Long cartPrice) {
         HttpHeaders headers = new HttpHeaders();
         headers.setBasicAuth(new String(Base64.getEncoder().encode((DOCKER_SHIPPING_USER + ":" + DOCKER_SHIPPING_PW).getBytes())));
         HttpEntity<String> entity = new HttpEntity<String>(headers);
-        return restTemplate.exchange("http://" + shipping_Url + ":8082/api/shipping/cost/?cost={cost}", HttpMethod.GET, entity, Long.class, cartPrice).getBody();
+        return restTemplate.exchange("http://" + shipping_Url + ":8082/shipping/api/cost/?cost={cost}", HttpMethod.GET, entity, Long.class, cartPrice).getBody();
     }
 
     @Recover
@@ -194,14 +241,14 @@ public class CheckoutController {
 
     @Retryable(
         value = {SocketTimeoutException.class},
-        maxAttempts = 3,
+        maxAttempts = 2,
         backoff = @Backoff(delay = 1000)
     )
     private Shipment getShipment(Long cartId) {
         HttpHeaders headers = new HttpHeaders();
         headers.setBasicAuth(new String(Base64.getEncoder().encode((DOCKER_SHIPPING_USER + ":" + DOCKER_SHIPPING_PW).getBytes())));
         HttpEntity<String> entity = new HttpEntity<String>(headers);
-        return restTemplate.exchange("http://"+ shipping_Url +":8082/api/shipping/?cartId=" + cartId, HttpMethod.POST, entity, Shipment.class).getBody();
+        return restTemplate.exchange("http://"+ shipping_Url +":8082/shipping/api/?cartId=" + cartId, HttpMethod.POST, entity, Shipment.class).getBody();
     }
 
     @Recover

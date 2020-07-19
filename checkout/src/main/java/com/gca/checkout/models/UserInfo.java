@@ -4,10 +4,29 @@ public class UserInfo {
     private String email;
     private String street;
     private String zip;
+    private String city;
+
+    public String getCity() {
+        return this.city;
+    }
+
+    public void setCity(String city) {
+        this.city = city;
+    }
+
     private String country;
     private String creditCard;
     private String month;
     private String year;
+    private String cvv;
+
+    public String getCvv() {
+        return this.cvv;
+    }
+
+    public void setCvv(String cvv) {
+        this.cvv = cvv;
+    }
 
     public String getEmail() {
         return this.email;
