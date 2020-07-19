@@ -9,7 +9,7 @@ import { ObserveOnSubscriber } from 'rxjs/internal/operators/observeOn';
 })
 export class CheckoutService {
 
-  private checkoutApi = `${environment.CHECKOUT_URL}/checkout/api/`;
+  private checkoutApi = `/checkout/api/`;
 
   public confirmCheckoutData: any;
 

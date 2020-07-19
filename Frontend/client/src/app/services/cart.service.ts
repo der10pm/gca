@@ -10,7 +10,7 @@ import { map } from 'rxjs/operators';
 })
 export class CartService {
 
-  private cartApi = `${environment.CART_URL}/cart/api/`;
+  private cartApi = `/cart/api/`;
 
   private currentCardID: string;
   private cartApiUser = `${environment.CART_USER}`;

@@ -24,12 +24,12 @@ spec:
             - name: {{ print $key "-http" }}
               containerPort: {{ $val.port }}
               # hostPort: {{ $val.targetPort }}
-          livenessProbe:
-            httpGet:
-              path: {{ $val.livenessUrl }}
-              port: {{ $val.portName }}
-            initialDelaySeconds: 10
-            periodSeconds: 10
+          # livenessProbe:
+          #   httpGet:
+          #     path: {{ $val.livenessUrl }}
+          #     port: {{ $val.portName }}
+          #   initialDelaySeconds: 10
+          #   periodSeconds: 10
           env: 
           {{- range $val.env }}
           - name: {{ .name }}

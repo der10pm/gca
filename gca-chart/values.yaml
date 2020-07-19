@@ -146,7 +146,7 @@ deployments:
     path: "/"
     replicaCount: 1
     name: frontend
-    image: "cszab/gca-frontend:0.0.1"
+    image: "cszab/gca-frontend:0.0.2"
     livenessUrl: "/"
     env:
     - name: CATALOG_USER
@@ -179,12 +179,6 @@ deployments:
         secretKeyRef:
           name: gca-secrets
           key: checkout_pw
-    - name: DOCKER_CATALOG_URL
-      value: catalog
-    - name: CART_URL
-      value: cart
-    - name: CHECKOUT_URL
-      value: checkout
 
 ingress: 
   enabled: true
@@ -196,8 +190,8 @@ autoscaling:
   minReplicas: 1
   maxReplicas: 5
   targetCPUUtilizationPercentage: 20
+
 global:
   postgresql:
     postgresqlDatabase: "gca"
-    postgresqlUsername: "psql"
     postgresqlPassword: "psql_pw"

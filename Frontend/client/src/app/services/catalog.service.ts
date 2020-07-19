@@ -7,7 +7,7 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class CatalogService {
-  private catalogApi = `${environment.CATALOG_URL}/catalog/api/`;
+  private catalogApi = `/catalog/api/`;
 
   private catalogApiUser = `${environment.CATALOG_USER}`;
   private catalogApiPW = `${environment.CATALOG_PW}`;
