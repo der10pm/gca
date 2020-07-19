@@ -1,5 +1,6 @@
 package com.gca.checkout.models;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Objects;
 
@@ -9,6 +10,7 @@ public class ShopCart {
     private Collection<Long> items;
 
     public ShopCart() {
+        this.items = new ArrayList<Long>();
     }
 
     public ShopCart(Collection<Long> items) {

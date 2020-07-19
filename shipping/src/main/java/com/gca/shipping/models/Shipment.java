@@ -8,20 +8,17 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
-import org.hibernate.annotations.GenericGenerator;
-
 @Entity
 public class Shipment {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     private Long cartId;
-    @GeneratedValue(generator = "UUID")
-    @GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
     private UUID trackingId;
 
 
     public Shipment() {
+        trackingId = UUID.randomUUID();
     }
 
     public Shipment(Long cartId) {

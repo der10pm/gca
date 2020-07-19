@@ -6,16 +6,16 @@ public class ShopItem {
 
     private Long id;
     private String name;
-    private int priceInCent;
+    private int price;
     private String imageURL;
 
     public ShopItem() {
     }
 
-    public ShopItem(Long id, String name, int priceInCent, String imageURL) {
+    public ShopItem(Long id, String name, int price, String imageURL) {
         this.id = id;
         this.name = name;
-        this.priceInCent = priceInCent;
+        this.price = price;
         this.imageURL = imageURL;
     }
 
@@ -31,12 +31,12 @@ public class ShopItem {
         this.name = name;
     }
 
-    public int getPriceInCent() {
-        return this.priceInCent;
+    public int getPrice() {
+        return this.price;
     }
 
-    public void setPriceInCent(int priceInCent) {
-        this.priceInCent = priceInCent;
+    public void setPrice(int price) {
+        this.price = price;
     }
 
     public String getImageURL() {
@@ -55,12 +55,12 @@ public class ShopItem {
             return false;
         }
         ShopItem shopItem = (ShopItem) o;
-        return Objects.equals(id, shopItem.id) && Objects.equals(name, shopItem.name) && priceInCent == shopItem.priceInCent && Objects.equals(imageURL, shopItem.imageURL);
+        return Objects.equals(id, shopItem.id) && Objects.equals(name, shopItem.name) && price == shopItem.price && Objects.equals(imageURL, shopItem.imageURL);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, name, priceInCent, imageURL);
+        return Objects.hash(id, name, price, imageURL);
     }
 
     @Override
@@ -68,7 +68,7 @@ public class ShopItem {
         return "{" +
             " id='" + getId() + "'" +
             ", name='" + getName() + "'" +
-            ", priceInCent='" + getPriceInCent() + "'" +
+            ", price='" + getPrice() + "'" +
             ", imageURL='" + getImageURL() + "'" +
             "}";
     }

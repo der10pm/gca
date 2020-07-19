@@ -65,7 +65,8 @@
                 "DOCKER_SHIPPING_PW": "shipping_pw",
                 "CATALOG_URL": "localhost:8080",
                 "CART_URL": "localhost:8081",
-                "SHIPPING_URL": "localhost:8082"
+                "SHIPPING_URL": "localhost:8082",
+                "DOCKER_LOG_LEVEL": "DEBUG"
             }
         }, 
     ]

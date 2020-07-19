@@ -6,7 +6,7 @@ deployments:
     path: "/api/catalog"
     replicaCount: 1
     name: catalog
-    image: "cszab/gca-catalog:0.0.5"
+    image: "cszab/gca-catalog:0.0.7"
     livenessUrl: "api/catalog/health"
     env:
     - name: DOCKER_USER
@@ -58,7 +58,7 @@ deployments:
     path: "/api/shipping"
     replicaCount: 1
     name: shipping
-    image: "cszab/gca-shipping:0.0.1"
+    image: "cszab/gca-shipping:0.0.2"
     livenessUrl: "api/shipping/health"
     env:
     - name: DOCKER_USER
@@ -90,7 +90,7 @@ deployments:
     path: "/api/checkout"
     replicaCount: 1
     name: checkout
-    image: "cszab/gca-checkout:0.0.1"
+    image: "cszab/gca-checkout:0.0.9"
     livenessUrl: "api/checkout/health"
     env:
     - name: DOCKER_USER
@@ -103,6 +103,42 @@ deployments:
         secretKeyRef:
           name: gca-secrets
           key: checkout_pw
+    - name: DOCKER_CATALOG_USER
+      valueFrom:
+        secretKeyRef:
+          name: gca-secrets
+          key: catalog_user
+    - name: DOCKER_CATALOG_PW
+      valueFrom:
+        secretKeyRef:
+          name: gca-secrets
+          key: catalog_pw
+    - name: DOCKER_CART_USER
+      valueFrom:
+        secretKeyRef:
+          name: gca-secrets
+          key: cart_user
+    - name: DOCKER_CART_PW
+      valueFrom:
+        secretKeyRef:
+          name: gca-secrets
+          key: cart_pw
+    - name: DOCKER_SHIPPING_USER
+      valueFrom:
+        secretKeyRef:
+          name: gca-secrets
+          key: shipping_user
+    - name: DOCKER_SHIPPING_PW
+      valueFrom:
+        secretKeyRef:
+          name: gca-secrets
+          key: shipping_pw
+    - name: DOCKER_CATALOG_URL
+      value: catalog
+    - name: DOCKER_CART_URL
+      value: cart
+    - name: DOCKER_SHIPPING_URL
+      value: shipping
 
 ingress: 
   enabled: true
